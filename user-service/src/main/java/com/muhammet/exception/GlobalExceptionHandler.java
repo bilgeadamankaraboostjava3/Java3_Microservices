@@ -51,13 +51,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseBody
-    public final ResponseEntity<ErrorMessage> handlePSQLException(
-        DataIntegrityViolationException exception) {
-        ErrorType errorType = KULLANICI_ZATEN_KAYITLI;
-        return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
-    }
 
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

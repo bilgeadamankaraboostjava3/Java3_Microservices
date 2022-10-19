@@ -1,5 +1,6 @@
 package com.muhammet.service;
 
+import antlr.Token;
 import com.muhammet.dto.request.LoginRequestDto;
 import com.muhammet.dto.request.RegisterRequestDto;
 import com.muhammet.dto.request.UserProfileSaveRequestDto;
@@ -10,6 +11,7 @@ import com.muhammet.repository.IAuthRepository;
 import com.muhammet.repository.entity.Auth;
 import com.muhammet.repository.enums.Roles;
 import com.muhammet.utility.ServiceManager;
+import com.muhammet.utility.TokenManager;
 import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,15 @@ import java.util.Optional;
 @Service
 public class AuthService extends ServiceManager<Auth,Long> {
     private final IAuthRepository repository;
+    private final TokenManager tokenManager;
     private final UserProfileManager userProfileManager;
-    public AuthService(IAuthRepository repository, UserProfileManager userProfileManager) {
+    public AuthService(IAuthRepository repository,
+                       UserProfileManager userProfileManager,
+                       TokenManager tokenManager) {
         super(repository);
         this.repository = repository;
         this.userProfileManager = userProfileManager;
+        this.tokenManager = tokenManager;
     }
 
     public Boolean save(RegisterRequestDto dto){
@@ -51,7 +57,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
         Optional<Auth> auth = repository.findOptionalByUsernameAndPassword(
                 dto.getUsername(),dto.getPassword());
         if(auth.isEmpty()) throw new AuthServiceException(ErrorType.LOGIN_ERROR_001);
-        return "Token:"+auth.get().getId();
+        return tokenManager.generateToken(auth.get().getId());
     }
 
 }
