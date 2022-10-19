@@ -1,9 +1,18 @@
 package com.muhammet.repository.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Table(name = "tbluserprofile")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

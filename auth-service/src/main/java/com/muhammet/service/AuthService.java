@@ -2,8 +2,10 @@ package com.muhammet.service;
 
 import com.muhammet.dto.request.LoginRequestDto;
 import com.muhammet.dto.request.RegisterRequestDto;
+import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.exception.AuthServiceException;
 import com.muhammet.exception.ErrorType;
+import com.muhammet.manager.UserProfileManager;
 import com.muhammet.repository.IAuthRepository;
 import com.muhammet.repository.entity.Auth;
 import com.muhammet.repository.enums.Roles;
@@ -16,10 +18,11 @@ import java.util.Optional;
 @Service
 public class AuthService extends ServiceManager<Auth,Long> {
     private final IAuthRepository repository;
-
-    public AuthService(IAuthRepository repository) {
+    private final UserProfileManager userProfileManager;
+    public AuthService(IAuthRepository repository, UserProfileManager userProfileManager) {
         super(repository);
         this.repository = repository;
+        this.userProfileManager = userProfileManager;
     }
 
     public Boolean save(RegisterRequestDto dto){
@@ -34,6 +37,11 @@ public class AuthService extends ServiceManager<Auth,Long> {
                 auth.setRoles(Roles.ROLE_ADMIN);
         save(auth);
         if(auth.getId() != null){
+            userProfileManager.save(UserProfileSaveRequestDto.builder()
+                            .authid(auth.getId())
+                            .email(auth.getEmail())
+                            .username(auth.getUsername())
+                    .build());
             return true;
         }
         return false;
