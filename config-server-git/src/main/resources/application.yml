@@ -1,0 +1,16 @@
+server:
+  port: 8889
+
+spring:
+  application:
+    name: config-server-git
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/bilgeadamankaraboostjava3/ankara3configlist.git"
+          default-label: main
+          skip-ssl-validation: true
+          username: bilgeadamankaraboostjava3
+          password: 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
+

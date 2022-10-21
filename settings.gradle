@@ -1,4 +1,6 @@
 rootProject.name = 'Bilgeadam_Java3_Microservices'
 include 'auth-service'
 include 'user-service'
+include 'config-server'
+include 'config-server-git'
 

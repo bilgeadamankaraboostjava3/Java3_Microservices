@@ -4,7 +4,10 @@ buildscript {
     }
 }
 dependencies {
-    implementation libs.springBootDataJpa
-    implementation libs.postgresql
-    implementation libs.springCloudConfigClient
+    implementation libs.springCloudStarterConfig
+    implementation libs.springCloudConfigServer
+}
+
+test {
+    useJUnitPlatform()
 }
