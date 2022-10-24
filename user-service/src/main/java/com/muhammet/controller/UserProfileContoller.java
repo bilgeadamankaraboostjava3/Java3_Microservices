@@ -6,10 +6,7 @@ import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,8 +38,8 @@ public class UserProfileContoller {
     public ResponseEntity<UserProfile> findById(){
         return null;
     }
-    @PostMapping(USER_LIST)
+    @GetMapping(USER_LIST)
     public ResponseEntity<List<UserProfile>> userList(){
-        return null;
+        return ResponseEntity.ok(userProfileService.findAll());
     }
 }
