@@ -9,8 +9,11 @@ import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.utility.JwtTokenManager;
 import com.muhammet.utility.ServiceManager;
 import com.muhammet.utility.TokenManager;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,13 +21,31 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
 
     private final IUserProfileRepository iUserProfileRepository;
     private final JwtTokenManager tokenManager;
+    private final CacheManager cacheManager;
     public UserProfileService(IUserProfileRepository iUserProfileRepository,
+                              CacheManager cacheManager,
                               JwtTokenManager tokenManager) {
         super(iUserProfileRepository);
         this.iUserProfileRepository = iUserProfileRepository;
         this.tokenManager = tokenManager;
+        this.cacheManager = cacheManager;
     }
 
+    @Cacheable(value = "uppercase")
+    public String getUpperCase(Long authid) {
+        /**
+         * Bu kısım methodun belli işlem basamaklarını simüle etmek ve
+         * belli zaman alacak işlemleri göstermek için yazılmıştır.
+         */
+        try{
+            Thread.sleep(3000);
+        }catch (Exception e){
+
+        }
+         Optional<UserProfile> user = iUserProfileRepository.findOptionalByAuthid(authid);
+        if(user.isEmpty()) return "";
+        return user.get().getName().toUpperCase();
+    }
     public Boolean save(UserProfileSaveRequestDto dto){
         save(UserProfile.builder()
                 .authid(dto.getAuthid())
@@ -33,7 +54,6 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
                 .build());
         return true;
     }
-
     public Boolean update(UserProfileUpdateRequestDto dto){
         Optional<Long> authid = tokenManager.getByIdFromToken(dto.getToken());
         if(authid.isEmpty()) throw new UserServiceException(ErrorType.GECERSIZ_ID);
@@ -49,4 +69,15 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         save(profile);
         return true;
     }
+    public void updateCacheReset(UserProfile profile){
+        save(profile);
+        /**
+         * Bu işlem ilgili method tarafından tutulan tüm önbeleklenmiş datayı temizler
+         * çok istemediğimiz gerekli olduğunda kullanmamız gereken bir yapıdır.
+         *  cacheManager.getCache("uppercase")
+         */
+        cacheManager.getCache("uppercase").evict(profile.getAuthid());
+    }
+
+
 }

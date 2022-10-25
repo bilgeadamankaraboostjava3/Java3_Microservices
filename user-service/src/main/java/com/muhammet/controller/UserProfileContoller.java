@@ -18,6 +18,18 @@ public class UserProfileContoller {
 
     private final UserProfileService userProfileService;
 
+    @GetMapping("/getupper")
+    public ResponseEntity<String> getUpperCase(Long authid) {
+        return ResponseEntity.ok(userProfileService.getUpperCase(authid));
+    }
+
+    @PostMapping("/savecachable")
+    public ResponseEntity<Void> updateUser(@RequestBody UserProfile userProfile){
+        userProfileService.updateCacheReset(userProfile);
+        return ResponseEntity.ok().build();
+    }
+
+
     /**
      * Kullanıcı kaydı, auth service te yapılıyor ve burada olan bilgiler user-service e gönderiliyor.
      * Auth-Service ten gelecek olan parametreler:
