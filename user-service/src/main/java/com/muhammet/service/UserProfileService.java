@@ -4,6 +4,7 @@ import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.dto.request.UserProfileUpdateRequestDto;
 import com.muhammet.exception.ErrorType;
 import com.muhammet.exception.UserServiceException;
+import com.muhammet.manager.ElasticSearchManager;
 import com.muhammet.repository.IUserProfileRepository;
 import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.utility.JwtTokenManager;
@@ -22,13 +23,16 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
     private final IUserProfileRepository iUserProfileRepository;
     private final JwtTokenManager tokenManager;
     private final CacheManager cacheManager;
+    private final ElasticSearchManager elasticSearchManager;
     public UserProfileService(IUserProfileRepository iUserProfileRepository,
                               CacheManager cacheManager,
+                              ElasticSearchManager elasticSearchManager,
                               JwtTokenManager tokenManager) {
         super(iUserProfileRepository);
         this.iUserProfileRepository = iUserProfileRepository;
         this.tokenManager = tokenManager;
         this.cacheManager = cacheManager;
+        this.elasticSearchManager = elasticSearchManager;
     }
 
     @Cacheable(value = "uppercase")
@@ -47,11 +51,12 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         return user.get().getName().toUpperCase();
     }
     public Boolean save(UserProfileSaveRequestDto dto){
-        save(UserProfile.builder()
+      UserProfile userProfile =   save(UserProfile.builder()
                 .authid(dto.getAuthid())
                 .username(dto.getUsername())
                 .email(dto.getEmail())
                 .build());
+       elasticSearchManager.save(userProfile);
         return true;
     }
     public Boolean update(UserProfileUpdateRequestDto dto){
@@ -67,6 +72,7 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         profile.setName(dto.getName());
         profile.setSurname(dto.getSurname());
         save(profile);
+        elasticSearchManager.update(profile);
         return true;
     }
     public void updateCacheReset(UserProfile profile){

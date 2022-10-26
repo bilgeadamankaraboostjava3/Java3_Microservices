@@ -40,6 +40,8 @@ ext{
         springCloudSleuthZipkin : "org.springframework.cloud:spring-cloud-sleuth-zipkin:$versions.springCloud",
         // Redis kullanımı için gerekli olan bağımlılıklar
         springDataRedis         : "org.springframework.boot:spring-boot-starter-data-redis:$versions.springBoot",
+        // Elastic Search için gerekli data bağımlılıkları
+        springDataElasticSearch : "org.springframework.boot:spring-boot-starter-data-elasticsearch:$versions.springBoot",
 
 
 

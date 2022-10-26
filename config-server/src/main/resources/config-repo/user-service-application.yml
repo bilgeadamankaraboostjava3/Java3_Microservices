@@ -24,6 +24,12 @@ myredis:
     host: localhost
     port: 6379
 
+myapplication:
+  user-service:
+    feign-client: http://localhost:9092/api/v1
+  elastic-service:
+    feign-client: http://localhost:9099/api/v1/elastic
+
 # JWT
 myjwt:
   secretkey: ${secretkey}
