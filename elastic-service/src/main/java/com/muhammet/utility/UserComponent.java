@@ -1,5 +1,6 @@
 package com.muhammet.utility;
 
+import com.muhammet.dto.request.UserProfileRequestDto;
 import com.muhammet.manager.IUserProfileManager;
 import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.service.UserProfileService;
@@ -15,9 +16,14 @@ public class UserComponent {
 
     private final IUserProfileManager userProfileManager;
     private final UserProfileService userProfileService;
-    //@PostConstruct
+    @PostConstruct
     public void firstRun(){
         List<UserProfile> userProfiles = userProfileManager.userList().getBody();
-        userProfileService.saveAll(userProfiles);
+
+        userProfiles.forEach(userProfile -> {
+            userProfile.setId(null);
+            userProfile.setUserid(Long.getLong(userProfile.getId()));
+            userProfileService.save(userProfile);
+        });
     }
 }

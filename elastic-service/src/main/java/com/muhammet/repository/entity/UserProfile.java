@@ -14,7 +14,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Document(indexName = "userprofile")
 public class UserProfile {
     @Id
-    Long id;
+    String id;
+    Long userid;
     /**
      * Auth servisinden kayıt olan kişinin auth id sini buraya eşitliyoruz.
      */
