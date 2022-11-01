@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
-@Table(name = "tbluserprofile")
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
+@Document
 public class UserProfile {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String id;
     /**
      * Auth servisinden kayıt olan kişinin auth id sini buraya eşitliyoruz.
      */

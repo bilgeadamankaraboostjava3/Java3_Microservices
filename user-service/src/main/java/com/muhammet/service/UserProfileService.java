@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserProfileService extends ServiceManager<UserProfile,Long> {
+public class UserProfileService extends ServiceManager<UserProfile,String> {
 
     private final IUserProfileRepository iUserProfileRepository;
     private final JwtTokenManager tokenManager;
@@ -57,7 +57,7 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
                 .username(dto.getUsername())
                 .email(dto.getEmail())
                 .build());
-       elasticSearchManager.save(userProfile);
+      // elasticSearchManager.save(userProfile);
         return true;
     }
     public Boolean update(UserProfileUpdateRequestDto dto){
