@@ -5,6 +5,8 @@ import com.muhammet.dto.request.UserProfileUpdateRequestDto;
 import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,13 @@ public class UserProfileContoller {
     public ResponseEntity<String> getUpperCase(Long authid) {
         return ResponseEntity.ok(userProfileService.getUpperCase(authid));
     }
+
+    @PostMapping("/saveall")
+    public ResponseEntity<Void> saveAll(@RequestBody List<UserProfileSaveRequestDto> dtos){
+        dtos.forEach(dto->userProfileService.save(dto));
+        return ResponseEntity.ok().build();
+    }
+
 
     @PostMapping("/savecachable")
     public ResponseEntity<Void> updateUser(@RequestBody UserProfile userProfile){
@@ -54,4 +63,18 @@ public class UserProfileContoller {
     public ResponseEntity<List<UserProfile>> userList(){
         return ResponseEntity.ok(userProfileService.findAll());
     }
+
+    /**
+     * localhost:9092/getallpage?page=0&size=20&parameter=id&direction=ASC
+     * localhost:9092/getallpage/0/20/id/ASC
+     * */
+    @GetMapping("/getallpage")
+    public ResponseEntity<Page<UserProfile>> getAllPage(int pageSize,int pageNumber, String parameter, String direction){
+        return ResponseEntity.ok(userProfileService.getAllPage(pageSize,pageNumber,parameter,direction));
+    }
+    @GetMapping("/getallslice")
+    public ResponseEntity<Slice<UserProfile>> getAllSlice(int pageSize, int pageNumber, String parameter, String direction){
+        return ResponseEntity.ok(userProfileService.getAllSlice(pageSize,pageNumber,parameter,direction));
+    }
+
 }

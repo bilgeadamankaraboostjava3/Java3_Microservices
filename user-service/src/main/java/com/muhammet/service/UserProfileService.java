@@ -12,6 +12,7 @@ import com.muhammet.utility.ServiceManager;
 import com.muhammet.utility.TokenManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,5 +86,27 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         cacheManager.getCache("uppercase").evict(profile.getAuthid());
     }
 
+    /**
+     *  ÖRN: 500 adet kayıt var.
+     *  DİKKAT -> sayfa sayıları 0(sıfır) dan başlar.
+     *  - 10 ar adet kayıt göstermek istediğimde 50 adet sayfa oluşur.
+     *  - 2. sayfayı sitediğimde 21-30. kayıtlar gösterilir.
+     * @param pageSize -> her seferinde kaç kayıt döneceğini belirler
+     * @param currentPageNumber -> geçerli sayfanın hangisi olduğunu belirler
+     * @param sortParameter -> sıralama işleminin hangi kolon a göre yapılaağını belirler.
+     * @param sortDirection -> sıralama yönü, ASC,DESC
+     * @return
+     */
+    public Page<UserProfile> getAllPage(int pageSize, int currentPageNumber, String sortParameter, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortParameter);
+        Pageable pageable = PageRequest.of(currentPageNumber,pageSize,sort);
+        return iUserProfileRepository.findAll(pageable);
+    }
+
+    public Slice<UserProfile> getAllSlice(int pageSize, int currentPageNumber, String sortParameter, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortParameter);
+        Pageable pageable = PageRequest.of(currentPageNumber,pageSize,sort);
+        return iUserProfileRepository.findAll(pageable);
+    }
 
 }
