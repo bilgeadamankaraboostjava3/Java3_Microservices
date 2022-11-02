@@ -60,6 +60,21 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
       // elasticSearchManager.save(userProfile);
         return true;
     }
+
+    public Boolean updateNonToken(UserProfileUpdateRequestDto dto){
+        Optional<UserProfile> userProfile =
+                iUserProfileRepository.findOptionalByAuthid(dto.getAuthid());
+        UserProfile profile = userProfile.get();
+        profile.setAddress(dto.getAddress());
+        profile.setPhone(dto.getPhone());
+        profile.setAvatar(dto.getAvatar());
+        profile.setName(dto.getName());
+        profile.setSurname(dto.getSurname());
+        save(profile);
+       // elasticSearchManager.update(profile);
+        return true;
+    }
+
     public Boolean update(UserProfileUpdateRequestDto dto){
         Optional<Long> authid = tokenManager.getByIdFromToken(dto.getToken());
         if(authid.isEmpty()) throw new UserServiceException(ErrorType.GECERSIZ_ID);

@@ -2,6 +2,7 @@ package com.muhammet.controller;
 
 import com.muhammet.dto.request.LoginRequestDto;
 import com.muhammet.dto.request.RegisterRequestDto;
+import com.muhammet.rabbitmq.producer.MessageProducer;
 import com.muhammet.repository.entity.Auth;
 import com.muhammet.repository.enums.Activated;
 import com.muhammet.repository.enums.Roles;
@@ -20,6 +21,7 @@ import static com.muhammet.constants.ApiUrls.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final MessageProducer  messageProducer;
     @PostMapping(DOLOGIN)
     public ResponseEntity<String> doLogin(@RequestBody @Valid LoginRequestDto dto){
         return ResponseEntity.ok(authService.doLogin(dto));
@@ -35,4 +37,11 @@ public class AuthController {
     public ResponseEntity<List<Auth>> getList(){
         return ResponseEntity.ok(authService.findAll());
     }
+
+    @PostMapping("/sendmessage")
+    public ResponseEntity<Void> sendMessage(String message, Long code){
+        messageProducer.sendMessage(message, code);
+        return ResponseEntity.ok().build();
+    }
+
 }
