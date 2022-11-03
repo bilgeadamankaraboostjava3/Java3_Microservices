@@ -1,5 +1,6 @@
 package com.muhammet.service;
 
+import com.muhammet.dto.request.GetMyProfileRequestDto;
 import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.dto.request.UserProfileUpdateRequestDto;
 import com.muhammet.exception.ErrorType;
@@ -34,6 +35,22 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
         this.tokenManager = tokenManager;
         this.cacheManager = cacheManager;
         this.elasticSearchManager = elasticSearchManager;
+    }
+
+    public UserProfile findByToken(GetMyProfileRequestDto dto){
+        Optional<Long> authid = tokenManager.getByIdFromToken(dto.getToken());
+        if(authid.isEmpty()) throw new UserServiceException(ErrorType.GECERSIZ_ID);
+        Optional<UserProfile> userProfile = iUserProfileRepository.findOptionalByAuthid(authid.get());
+        if(userProfile.isEmpty()) throw new UserServiceException(ErrorType.KULLANICI_BULUNAMADI);
+        return userProfile.get();
+        /*
+        GlobalException burada oluşacak hatayı yakalayabilir. ama istersek bizde bu hatayı kontrol edebiliriz.
+        try{
+             Optional<UserProfile> userProfile = iUserProfileRepository.findOptionalByAuthid(authid.get());
+        }catch (Exception e){
+            throw new UserServiceException(ErrorType.GECERSIZ_ID);
+        }
+       */
     }
 
     @Cacheable(value = "uppercase")

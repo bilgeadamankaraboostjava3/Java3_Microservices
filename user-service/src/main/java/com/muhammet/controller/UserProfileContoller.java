@@ -1,5 +1,6 @@
 package com.muhammet.controller;
 
+import com.muhammet.dto.request.GetMyProfileRequestDto;
 import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.dto.request.UserProfileUpdateRequestDto;
 import com.muhammet.repository.entity.UserProfile;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.muhammet.constants.ApiUrls.*;
@@ -20,25 +22,25 @@ public class UserProfileContoller {
 
     private final UserProfileService userProfileService;
 
+    @PostMapping("/getmyprofile")
+    public ResponseEntity<UserProfile> getMyProfile(@RequestBody @Valid GetMyProfileRequestDto dto){
+        return ResponseEntity.ok(userProfileService.findByToken(dto));
+    }
+
     @GetMapping("/getupper")
     public ResponseEntity<String> getUpperCase(Long authid) {
         return ResponseEntity.ok(userProfileService.getUpperCase(authid));
     }
-
     @PostMapping("/saveall")
     public ResponseEntity<Void> saveAll(@RequestBody List<UserProfileSaveRequestDto> dtos){
         dtos.forEach(dto->userProfileService.save(dto));
         return ResponseEntity.ok().build();
     }
-
-
     @PostMapping("/savecachable")
     public ResponseEntity<Void> updateUser(@RequestBody UserProfile userProfile){
         userProfileService.updateCacheReset(userProfile);
         return ResponseEntity.ok().build();
     }
-
-
     /**
      * Kullanıcı kaydı, auth service te yapılıyor ve burada olan bilgiler user-service e gönderiliyor.
      * Auth-Service ten gelecek olan parametreler:
@@ -55,7 +57,6 @@ public class UserProfileContoller {
     public ResponseEntity<Boolean> update(UserProfileUpdateRequestDto dto){
         return ResponseEntity.ok(userProfileService.update(dto));
     }
-
     @PostMapping("updatenontoken")
     public ResponseEntity<Boolean> updateNonToken(UserProfileUpdateRequestDto dto){
         return ResponseEntity.ok(userProfileService.updateNonToken(dto));
@@ -68,7 +69,6 @@ public class UserProfileContoller {
     public ResponseEntity<List<UserProfile>> userList(){
         return ResponseEntity.ok(userProfileService.findAll());
     }
-
     /**
      * localhost:9092/getallpage?page=0&size=20&parameter=id&direction=ASC
      * localhost:9092/getallpage/0/20/id/ASC

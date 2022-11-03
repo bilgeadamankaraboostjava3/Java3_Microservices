@@ -2,6 +2,8 @@ package com.muhammet.controller;
 
 import com.muhammet.dto.request.LoginRequestDto;
 import com.muhammet.dto.request.RegisterRequestDto;
+import com.muhammet.dto.response.LoginResponseDto;
+import com.muhammet.dto.response.RegisterResponseDto;
 import com.muhammet.rabbitmq.producer.MessageProducer;
 import com.muhammet.repository.entity.Auth;
 import com.muhammet.repository.enums.Activated;
@@ -23,14 +25,25 @@ public class AuthController {
     private final AuthService authService;
     private final MessageProducer  messageProducer;
     @PostMapping(DOLOGIN)
-    public ResponseEntity<String> doLogin(@RequestBody @Valid LoginRequestDto dto){
-        return ResponseEntity.ok(authService.doLogin(dto));
+    public ResponseEntity<LoginResponseDto> doLogin(@RequestBody @Valid LoginRequestDto dto){
+        String token = authService.doLogin(dto);
+        return ResponseEntity.ok(LoginResponseDto.builder()
+                        .token(token)
+                        .code(1201)
+                        .message("Giriş başarılı")
+                .build());
     }
     @PostMapping(REGISTER)
-    public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequestDto dto){
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto){
         if(authService.save(dto))
-            return ResponseEntity.ok().build();
-        return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok(RegisterResponseDto.builder()
+                            .code(1200)
+                            .message("Kayıt Başarılı")
+                    .build());
+        return ResponseEntity.badRequest().body(RegisterResponseDto.builder()
+                .message("Kayıt Başarısız")
+                .code(1400)
+                .build());
     }
 
     @GetMapping("/getall")
