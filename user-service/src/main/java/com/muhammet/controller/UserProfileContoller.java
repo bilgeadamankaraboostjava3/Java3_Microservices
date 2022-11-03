@@ -1,9 +1,8 @@
 package com.muhammet.controller;
 
-import com.muhammet.dto.request.GetMyProfileRequestDto;
-import com.muhammet.dto.request.UserProfileSaveRequestDto;
-import com.muhammet.dto.request.UserProfileUpdateRequestDto;
+import com.muhammet.dto.request.*;
 import com.muhammet.repository.entity.UserProfile;
+import com.muhammet.service.OnlineService;
 import com.muhammet.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,11 +20,29 @@ import static com.muhammet.constants.ApiUrls.*;
 public class UserProfileContoller {
 
     private final UserProfileService userProfileService;
-
+    private final OnlineService onlineService;
     @PostMapping("/getmyprofile")
     public ResponseEntity<UserProfile> getMyProfile(@RequestBody @Valid GetMyProfileRequestDto dto){
         return ResponseEntity.ok(userProfileService.findByToken(dto));
     }
+
+    @PostMapping("/doonline")
+    public ResponseEntity<Void> doOnline(DoOnlineRequestDto dto){
+        onlineService.doOnline(dto.getToken());
+       return  ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/dooffline")
+    public ResponseEntity<Void> doOffline(DoOnlineRequestDto dto){
+        onlineService.doOffline(dto.getToken());
+        return  ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/getallonlinelist")
+    public ResponseEntity<?> getAllOnlineList(GetAllOnlineListRequestDto dto){
+        return ResponseEntity.ok(onlineService.getAllOnlineList());
+    }
+
 
     @GetMapping("/getupper")
     public ResponseEntity<String> getUpperCase(Long authid) {
