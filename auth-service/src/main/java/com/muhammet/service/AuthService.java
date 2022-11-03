@@ -7,6 +7,8 @@ import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.exception.AuthServiceException;
 import com.muhammet.exception.ErrorType;
 import com.muhammet.manager.UserProfileManager;
+import com.muhammet.rabbitmq.model.CreateProfile;
+import com.muhammet.rabbitmq.producer.CreateProfileProducer;
 import com.muhammet.repository.IAuthRepository;
 import com.muhammet.repository.entity.Auth;
 import com.muhammet.repository.enums.Roles;
@@ -23,15 +25,17 @@ public class AuthService extends ServiceManager<Auth,Long> {
     private final IAuthRepository repository;
     private final JwtTokenManager tokenManager;
     private final UserProfileManager userProfileManager;
+    private final CreateProfileProducer createProfileProducer;
     public AuthService(IAuthRepository repository,
                        UserProfileManager userProfileManager,
+                       CreateProfileProducer createProfileProducer,
                        JwtTokenManager tokenManager) {
         super(repository);
         this.repository = repository;
         this.userProfileManager = userProfileManager;
         this.tokenManager = tokenManager;
+        this.createProfileProducer = createProfileProducer;
     }
-
     public Boolean save(RegisterRequestDto dto){
         Auth auth = Auth.builder()
                 .username(dto.getUsername())
@@ -44,11 +48,16 @@ public class AuthService extends ServiceManager<Auth,Long> {
                 auth.setRoles(Roles.ROLE_ADMIN);
         save(auth);
         if(auth.getId() != null){
-            userProfileManager.save(UserProfileSaveRequestDto.builder()
-                            .authid(auth.getId())
-                            .email(auth.getEmail())
-                            .username(auth.getUsername())
-                    .build());
+            try{
+                createProfileProducer.createProfile(CreateProfile.builder()
+                        .authid(auth.getId())
+                        .email(auth.getEmail())
+                        .username(auth.getUsername())
+                        .build());
+            }catch (Exception e){
+                delete(auth);
+                return false;
+            }
             return true;
         }
         return false;
