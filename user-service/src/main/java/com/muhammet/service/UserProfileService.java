@@ -26,6 +26,10 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
     private final JwtTokenManager tokenManager;
     private final CacheManager cacheManager;
     private final ElasticSearchManager elasticSearchManager;
+
+    public Optional<UserProfile> findByAuthid(Long authid){
+        return iUserProfileRepository.findOptionalByAuthid(authid);
+    }
     public UserProfileService(IUserProfileRepository iUserProfileRepository,
                               CacheManager cacheManager,
                               ElasticSearchManager elasticSearchManager,

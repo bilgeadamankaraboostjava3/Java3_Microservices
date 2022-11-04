@@ -8,4 +8,5 @@ dependencies {
     implementation libs.springDataRedis
     implementation libs.springBootDataMongodb
     implementation libs.springBootRabbitMQ
+    implementation libs.springBootStarterSecurity
 }

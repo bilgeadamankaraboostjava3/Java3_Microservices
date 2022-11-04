@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -83,6 +84,7 @@ public class UserProfileContoller {
         return null;
     }
     @GetMapping(USER_LIST)
+    @PreAuthorize("hasAuthority('ADMIN_ARKADAS') or hasAuthority('YETKLI_BIR_ABIMIZDIR')")
     public ResponseEntity<List<UserProfile>> userList(){
         return ResponseEntity.ok(userProfileService.findAll());
     }
