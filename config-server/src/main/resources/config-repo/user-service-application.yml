@@ -30,6 +30,8 @@ myredis:
     port: 6379
 
 myapplication:
+  auth-service:
+    url: http://localhost:9090/api/v1
   user-service:
     feign-client: http://localhost:9092/api/v1
   elastic-service:

@@ -34,7 +34,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
            if(authid.isPresent()){
                Optional<UserProfile> userProfile = userProfileService.findByAuthid(authid.get());
                if(userProfile.isPresent()){
-                   UserDetails userDetails = jwtMyUser.loadByAuthid(userProfile.get().getAuthid());
+                   UserDetails userDetails = jwtMyUser.loadByAuthid(userProfile.get());
                    UsernamePasswordAuthenticationToken authenticationToken =
                            new UsernamePasswordAuthenticationToken(
                                    userDetails,null,

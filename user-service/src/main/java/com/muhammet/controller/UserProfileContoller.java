@@ -84,7 +84,7 @@ public class UserProfileContoller {
         return null;
     }
     @GetMapping(USER_LIST)
-    @PreAuthorize("hasAuthority('ADMIN_ARKADAS') or hasAuthority('YETKLI_BIR_ABIMIZDIR')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('PRODUCTOWNER')")
     public ResponseEntity<List<UserProfile>> userList(){
         return ResponseEntity.ok(userProfileService.findAll());
     }
