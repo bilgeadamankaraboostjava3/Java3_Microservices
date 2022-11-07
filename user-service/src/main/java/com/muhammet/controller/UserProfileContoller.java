@@ -1,6 +1,7 @@
 package com.muhammet.controller;
 
 import com.muhammet.dto.request.*;
+import com.muhammet.dto.response.FindByAuthidResponseDto;
 import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.service.OnlineService;
 import com.muhammet.service.UserProfileService;
@@ -101,4 +102,14 @@ public class UserProfileContoller {
         return ResponseEntity.ok(userProfileService.getAllSlice(pageSize,pageNumber,parameter,direction));
     }
 
+    @PostMapping("/findbyauthid")
+    public ResponseEntity<FindByAuthidResponseDto> findByAuthid(@RequestBody FindByAuthidRequestDto dto){
+        UserProfile user = userProfileService.findByAuthid(dto);
+        return ResponseEntity.ok(FindByAuthidResponseDto.builder()
+                        .avatar(user.getAvatar())
+                        .name(user.getName())
+                        .userid(user.getId())
+                        .username(user.getUsername())
+                .build());
+    }
 }

@@ -1,5 +1,6 @@
 package com.muhammet.service;
 
+import com.muhammet.dto.request.FindByAuthidRequestDto;
 import com.muhammet.dto.request.GetMyProfileRequestDto;
 import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.dto.request.UserProfileUpdateRequestDto;
@@ -145,4 +146,9 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
         return iUserProfileRepository.findAll(pageable);
     }
 
+    public UserProfile findByAuthid(FindByAuthidRequestDto dto){
+        Optional<UserProfile> userProfile = iUserProfileRepository.findOptionalByAuthid(dto.getAuthid());
+        if(userProfile.isEmpty()) throw new UserServiceException(ErrorType.KULLANICI_BULUNAMADI);
+        return userProfile.get();
+    }
 }
