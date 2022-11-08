@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-auth
+  labels:
+    app: authdeployment
+spec:
+  selector:
+    matchLabels:
+      app: main-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth
+        image: javaboost2/java3auth:v001
+        resources:
+          requests:
+            memory: 1024Mi
+            cpu: 250m
+          limits:
+            memory: 2048Mi
+            cpu: 500m
+        ports:
+        - containerPort: 27017
+        env:
+        - name: secretkey
+          value: "AdminBilge"
+        - name: audience
+          value: "bilgeadam"
+        - name: issuer
+          value: "bilgeadam"

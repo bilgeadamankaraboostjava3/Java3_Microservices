@@ -13,7 +13,7 @@ import static com.muhammet.constants.ApiUrls.SAVE;
  * name -> benzersiz bir isim olmalıdır. diğer türlü hata alacaksınız.
  */
 @FeignClient(name = "user-profile-service",
-        url= "http://localhost:9092/api/v1/user",
+        url= "${myapplication.user-service.feign-client}/user",
         decode404 = true)
 public interface UserProfileManager {
 

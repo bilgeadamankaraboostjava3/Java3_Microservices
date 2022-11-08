@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-auth
+  labels:
+    app: authservice
+spec:
+    ports:
+    - port: 9090
+      targetPort: 9090
+    selector:
+        app: auth-service
+    type: LoadBalancer

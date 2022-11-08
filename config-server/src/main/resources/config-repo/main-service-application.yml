@@ -8,29 +8,30 @@ spring:
       password: 123456
   data:
     mongodb:
-      host: 34.70.190.164
-      port: 27777
+      host: 10.64.0.4
+      port: 27017
       database: java3yarisma
       username: bilgeuser
       password: "bilge!!**"
   zipkin:
     enabled: true
-    base-url: http://localhost:9411
+    base-url: http://10.64.0.18:9411
     service:
-      name: user-service
+      name: main-service
 
 
 myredis:
-    host: localhost
+    host: 10.64.0.22
     port: 6379
+
 
 myapplication:
   auth-service:
-    url: http://localhost:9090/api/v1
+    feign-client: http://10.68.12.147:9090/api/v1
+  main-service:
+    feign-client: http://10.68.13.16:9091/api/v1
   user-service:
-    feign-client: http://localhost:9092/api/v1
-  elastic-service:
-    feign-client: http://localhost:9099/api/v1/elastic
+    feign-client: http://10.68.13.95:9092/api/v1
 
 # JWT
 myjwt:

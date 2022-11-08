@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisdbdeployment
+  labels:
+    team: databaseredisdeployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redisdeployment
+  template:
+    metadata:
+      name: redisdeployment
+      labels:
+        app: redisdeployment
+    spec:
+      containers:
+        - name: java3service
+          image: redis
+          command: ["redis-server"]
+          args: ["--replica-announce-ip svc-redis-instance-1"]
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "100m"
+            limits:
+              memory: "2Gi"
+              cpu: "200m"
