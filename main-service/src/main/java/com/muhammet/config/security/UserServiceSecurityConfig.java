@@ -25,7 +25,7 @@ public class UserServiceSecurityConfig {
          * http://localhost:9092/v3/api-docs/**[herşey]
          */
         http.authorizeRequests()
-                .antMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**","/swagger-ui/**","/question/**","/answer/**").permitAll()
                 .anyRequest().authenticated();
         /**
          * kullanıcı doğrulama işlemini spring form ile yap.
