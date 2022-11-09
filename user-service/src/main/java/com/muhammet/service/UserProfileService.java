@@ -6,18 +6,15 @@ import com.muhammet.dto.request.UserProfileSaveRequestDto;
 import com.muhammet.dto.request.UserProfileUpdateRequestDto;
 import com.muhammet.exception.ErrorType;
 import com.muhammet.exception.UserServiceException;
-import com.muhammet.manager.ElasticSearchManager;
 import com.muhammet.repository.IUserProfileRepository;
 import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.utility.JwtTokenManager;
 import com.muhammet.utility.ServiceManager;
-import com.muhammet.utility.TokenManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,20 +23,19 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
     private final IUserProfileRepository iUserProfileRepository;
     private final JwtTokenManager tokenManager;
     private final CacheManager cacheManager;
-    private final ElasticSearchManager elasticSearchManager;
+  //  private final ElasticSearchManager elasticSearchManager;
 
     public Optional<UserProfile> findByAuthid(Long authid){
         return iUserProfileRepository.findOptionalByAuthid(authid);
     }
     public UserProfileService(IUserProfileRepository iUserProfileRepository,
                               CacheManager cacheManager,
-                              ElasticSearchManager elasticSearchManager,
                               JwtTokenManager tokenManager) {
         super(iUserProfileRepository);
         this.iUserProfileRepository = iUserProfileRepository;
         this.tokenManager = tokenManager;
         this.cacheManager = cacheManager;
-        this.elasticSearchManager = elasticSearchManager;
+       // this.elasticSearchManager = elasticSearchManager;
     }
 
     public UserProfile findByToken(GetMyProfileRequestDto dto){
@@ -110,7 +106,7 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
         profile.setName(dto.getName());
         profile.setSurname(dto.getSurname());
         save(profile);
-        elasticSearchManager.update(profile);
+       // elasticSearchManager.update(profile);
         return true;
     }
     public void updateCacheReset(UserProfile profile){

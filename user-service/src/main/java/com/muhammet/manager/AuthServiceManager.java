@@ -10,7 +10,7 @@ import java.util.List;
 
 @FeignClient(
         name = "auth-service-manager",
-        url="${myapplication.auth-service.url}/auth",
+        url="${myapplication.auth-service.feign-client}/auth",
         decode404 = true)
 public interface AuthServiceManager {
 

@@ -26,6 +26,7 @@ import static com.muhammet.constants.ApiUrls.*;
 @RestController
 @RequestMapping(AUTH)
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
     private final AuthService authService;
     private final MessageProducer  messageProducer;

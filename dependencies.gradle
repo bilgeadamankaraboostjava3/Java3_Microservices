@@ -16,6 +16,8 @@ ext{
         springBootStarterWeb    : "org.springframework.boot:spring-boot-starter-web:$versions.springBoot",
         // Spring Security - güvenlik bağımlılıkları
         springBootStarterSecurity: "org.springframework.boot:spring-boot-starter-security:$versions.springBoot",
+        // Spring Boot Test bağımlılıkları
+        springBootStarterTest: "org.springframework.boot:spring-boot-starter-test:$versions.springBoot",
         // İlişksel veritabanları için bağlantı bağımlılığı
         springBootDataJpa       : "org.springframework.boot:spring-boot-starter-data-jpa:$versions.springBoot",
         // NoSQL veritabanları için bağlantı bağımlılığı

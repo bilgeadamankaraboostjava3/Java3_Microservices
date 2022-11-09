@@ -46,16 +46,16 @@ public class AuthService extends ServiceManager<Auth,Long> {
         if(dto.getAdmincode()!=null)
             if(dto.getAdmincode().equals("Adm!n"))
                 auth.setRoles(Roles.ROLE_ADMIN);
-        save(auth);
-        if(auth.getId() != null){
+        Auth savedAuth = save(auth); // auth kaydeder ve kayıt neticesinde id oluşur
+        if(savedAuth.getId() != null){
             try{
                 createProfileProducer.createProfile(CreateProfile.builder()
-                        .authid(auth.getId())
-                        .email(auth.getEmail())
-                        .username(auth.getUsername())
+                        .authid(savedAuth.getId())
+                        .email(savedAuth.getEmail())
+                        .username(savedAuth.getUsername())
                         .build());
             }catch (Exception e){
-                delete(auth);
+                delete(savedAuth);
                 return false;
             }
             return true;

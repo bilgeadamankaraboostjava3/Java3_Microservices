@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.muhammet.constants.ApiUrls.*;
 
-@FeignClient(name = "elastic-service",
-        url="${myapplication.elastic-service.feign-client}",
-        decode404 = true)
+//@FeignClient(name = "elastic-service",     url="${myapplication.elastic-service.feign-client}",        decode404 = true)
 public interface ElasticSearchManager {
 
     @PostMapping(SAVE)

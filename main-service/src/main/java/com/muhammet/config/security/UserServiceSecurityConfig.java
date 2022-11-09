@@ -19,7 +19,7 @@ public class UserServiceSecurityConfig {
         /**
          * csrf'i kapat
          */
-        http.csrf().disable();
+        http.cors().and().csrf().disable();
         /**
          * Tüm gelen isteklere izin verme
          * http://localhost:9092/v3/api-docs/**[herşey]
