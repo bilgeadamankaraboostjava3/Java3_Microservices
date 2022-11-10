@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Entity
 public class Auth {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     @Column(length = 16,nullable = false,unique = true)
     String username;

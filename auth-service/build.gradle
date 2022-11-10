@@ -9,6 +9,8 @@ dependencies {
     implementation libs.springCloudConfigClient
     implementation libs.springBootRabbitMQ
     testImplementation libs.springBootStarterTest
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
+
 }
 
 tasks.named("test"){
