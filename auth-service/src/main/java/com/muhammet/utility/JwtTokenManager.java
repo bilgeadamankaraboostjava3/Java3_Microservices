@@ -39,7 +39,7 @@ public class JwtTokenManager {
                     .withAudience(audience) // Kitle
                     .withIssuer(issuer) // Yayımcı
                     .withIssuedAt(new java.util.Date()) // oluşturma zamanı
-                    .withExpiresAt(new Date(System.currentTimeMillis()+(1000*60))) // geçersi kılınma zamanı (60sn sonra)
+                    .withExpiresAt(new Date(System.currentTimeMillis()+(1000*60*15))) // geçersi kılınma zamanı (60sn sonra)
                     .withClaim("authid",authid) // kullanılacak bilgiler.
                     .sign(algorithm); // şifremele- imzalama işlemi yapılır.
            return token;

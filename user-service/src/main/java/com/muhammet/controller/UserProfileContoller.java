@@ -29,18 +29,21 @@ public class UserProfileContoller {
     }
 
     @PostMapping("/doonline")
+    @CrossOrigin("*")
     public ResponseEntity<Void> doOnline(DoOnlineRequestDto dto){
         onlineService.doOnline(dto.getToken());
        return  ResponseEntity.ok().build();
     }
 
     @PostMapping("/dooffline")
+    @CrossOrigin("*")
     public ResponseEntity<Void> doOffline(DoOnlineRequestDto dto){
         onlineService.doOffline(dto.getToken());
         return  ResponseEntity.ok().build();
     }
 
     @PostMapping("/getallonlinelist")
+    @CrossOrigin("*")
     public ResponseEntity<?> getAllOnlineList(GetAllOnlineListRequestDto dto){
         return ResponseEntity.ok(onlineService.getAllOnlineList());
     }

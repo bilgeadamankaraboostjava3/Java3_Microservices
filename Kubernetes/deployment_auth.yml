@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: auth
-        image: javaboost2/java3auth:v002
+        image: javaboost2/java3auth:v004
         resources:
           requests:
             memory: 1024Mi

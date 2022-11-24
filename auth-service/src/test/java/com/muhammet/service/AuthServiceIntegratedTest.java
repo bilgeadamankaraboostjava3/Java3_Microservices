@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ActiveProfiles("test")
 public class AuthServiceIntegratedTest {
 
-    @Autowired
+ //   @Autowired
     AuthService authService;
 
-    @Test
+   // @Test
     public void saveTest(){
         AtomicBoolean isSave = new AtomicBoolean(false);
         getRegisterDtoList().forEach(r->{
@@ -28,7 +28,7 @@ public class AuthServiceIntegratedTest {
 
     }
 
-    @Test
+   // @Test
     public void test(){
         List<Auth> authList = authService.findAll();
         Assertions.assertEquals(10,  authList.size());

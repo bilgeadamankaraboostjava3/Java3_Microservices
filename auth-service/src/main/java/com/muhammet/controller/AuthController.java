@@ -34,6 +34,7 @@ public class AuthController {
     private final AuthRolesServices authRolesServices;
     private final AuthoritiesService authoritiesServices;
     @PostMapping(DOLOGIN)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<LoginResponseDto> doLogin(@RequestBody @Valid LoginRequestDto dto){
         String token = authService.doLogin(dto);
         return ResponseEntity.ok(LoginResponseDto.builder()
@@ -43,6 +44,7 @@ public class AuthController {
                 .build());
     }
     @PostMapping(REGISTER)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto){
         if(authService.save(dto))
             return ResponseEntity.ok(RegisterResponseDto.builder()

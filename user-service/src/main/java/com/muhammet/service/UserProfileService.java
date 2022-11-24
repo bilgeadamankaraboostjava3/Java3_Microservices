@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -147,4 +148,9 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
         if(userProfile.isEmpty()) throw new UserServiceException(ErrorType.KULLANICI_BULUNAMADI);
         return userProfile.get();
     }
+
+    public List<UserProfile> findAllByIdIn(List<String> ids){
+        return iUserProfileRepository.findAllByIdIn(ids);
+    }
+
 }

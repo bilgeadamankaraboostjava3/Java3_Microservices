@@ -7,6 +7,7 @@ import com.muhammet.repository.entity.UserProfile;
 import com.muhammet.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,12 @@ public class OnlineService extends ServiceManager<Online,String> {
         this.userProfileService = userProfileService;
     }
 
-    public List<Online> getAllOnlineList(){
-        return iOnlineRepository.findByOnlineTrue();
+    public List<UserProfile> getAllOnlineList(){
+        List<String> onlineuseids = new ArrayList<>();
+                iOnlineRepository.findByOnlineTrue().forEach(x->{
+                    onlineuseids.add(x.getUserprofileid());
+                });
+        return userProfileService.findAllByIdIn(onlineuseids);
     }
 
     /**
