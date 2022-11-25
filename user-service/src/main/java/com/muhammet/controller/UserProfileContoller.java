@@ -24,26 +24,27 @@ public class UserProfileContoller {
     private final UserProfileService userProfileService;
     private final OnlineService onlineService;
     @PostMapping("/getmyprofile")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<UserProfile> getMyProfile(@RequestBody @Valid GetMyProfileRequestDto dto){
         return ResponseEntity.ok(userProfileService.findByToken(dto));
     }
 
     @PostMapping("/doonline")
-    @CrossOrigin("*")
-    public ResponseEntity<Void> doOnline(DoOnlineRequestDto dto){
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Void> doOnline(@RequestBody DoOnlineRequestDto dto){
         onlineService.doOnline(dto.getToken());
        return  ResponseEntity.ok().build();
     }
 
     @PostMapping("/dooffline")
-    @CrossOrigin("*")
-    public ResponseEntity<Void> doOffline(DoOnlineRequestDto dto){
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Void> doOffline(@RequestBody DoOnlineRequestDto dto){
         onlineService.doOffline(dto.getToken());
         return  ResponseEntity.ok().build();
     }
 
     @PostMapping("/getallonlinelist")
-    @CrossOrigin("*")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> getAllOnlineList(GetAllOnlineListRequestDto dto){
         return ResponseEntity.ok(onlineService.getAllOnlineList());
     }

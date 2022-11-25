@@ -18,11 +18,13 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping(SAVE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Void> save(@RequestBody List<AnswerRequestDto> dto){
         answerService.save(dto);
         return ResponseEntity.ok().build();
     }
     @GetMapping(FINDALL)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<Answer>> findAll(){
         return ResponseEntity.ok(answerService.findAll());
     }

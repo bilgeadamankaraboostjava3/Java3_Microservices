@@ -23,12 +23,14 @@ public class QuestionController {
     private final AnswerService answerService;
 
     @PostMapping(SAVE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Void> save(@RequestBody @Valid QuestionSaveRequestDto dto){
         questionService.save(dto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(FINDALL)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<QuestionListResponseDto>> findAll(){
         List<Question> qlist = questionService.findAll();
         List<QuestionListResponseDto> result = new ArrayList<>();

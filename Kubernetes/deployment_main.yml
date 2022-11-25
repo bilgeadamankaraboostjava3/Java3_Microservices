@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-auth
+  name: deployment-main
   labels:
-    app: authdeployment
+    app: maindeployment
 spec:
   selector:
     matchLabels:
@@ -11,20 +11,20 @@ spec:
   template:
     metadata:
       labels:
-        app: auth-service
+        app: main-service
     spec:
       containers:
-      - name: auth
-        image: javaboost2/java3auth:v001
+      - name: main
+        image: javaboost2/java3main:v001
         resources:
           requests:
             memory: 1024Mi
-            cpu: 250m
+            cpu: 100m
           limits:
             memory: 2048Mi
-            cpu: 500m
+            cpu: 200m
         ports:
-        - containerPort: 27017
+        - containerPort: 9091
         env:
         - name: secretkey
           value: "AdminBilge"

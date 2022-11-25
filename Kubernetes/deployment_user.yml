@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: javaboost2/java3user:v002
+        image: javaboost2/java3user:v005
         resources:
           requests:
             memory: 1024Mi

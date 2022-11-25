@@ -19,7 +19,7 @@ public class UserServiceSecurityConfig {
         /**
          * csrf'i kapat
          */
-        http.cors().and().csrf().disable();
+
         /**
          * Tüm gelen isteklere izin verme
          * http://localhost:9092/v3/api-docs/**[herşey]
@@ -31,6 +31,7 @@ public class UserServiceSecurityConfig {
          * kullanıcı doğrulama işlemini spring form ile yap.
          */
         //http.formLogin();
+        http.cors().and().csrf().disable();
         /**
          * Gelen her isteği kendi oluşturduğumuz bir sınıf içerisine yönlendireceğiz ve burada
          * gelen token bilgisini kontrol ederek içinde var olan authid ile kullanıcı bilgilerini
